@@ -1,0 +1,77 @@
+{
+  "name": "scout-inventory-keeper",
+  "productName": "Scout Inventory Keeper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently -k \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:pack": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "firebase": "^12.0.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "xlsx": "^0.18.5",
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.1",
+    "tailwindcss": "^3.4.4",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "vite-plugin-pwa": "^0.20.5",
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3",
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.scout.inventory-keeper",
+    "productName": "Scout Inventory Keeper",
+    "directories": {
+      "output": "release",
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build-resources/icon.png"
+    },
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] },
+        { "target": "zip", "arch": ["x64", "arm64"] }
+      ],
+      "icon": "build-resources/icon.png",
+      "category": "public.app-category.productivity",
+      "identity": null,
+      "gatekeeperAssess": false,
+      "hardenedRuntime": false
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build-resources/icon.png"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "YOUR_GITHUB_USER",
+      "repo": "scout-inventory-keeper",
+      "releaseType": "release"
+    }
+  }
+}

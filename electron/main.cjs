@@ -1,0 +1,103 @@
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const path = require('path')
+const fs = require('fs')
+
+let win
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 1280,
+    height: 800,
+    minWidth: 900,
+    minHeight: 600,
+    title: 'Scout Inventory Keeper',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.cjs'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+
+  if (process.env.NODE_ENV === 'development') {
+    win.loadURL('http://localhost:5173')
+    win.webContents.openDevTools()
+  } else {
+    win.loadFile(path.join(__dirname, '../dist/index.html'))
+  }
+}
+
+app.whenReady().then(() => {
+  createWindow()
+
+  // Auto-updater (packaged builds only)
+  if (app.isPackaged) {
+    try {
+      const { autoUpdater } = require('electron-updater')
+      autoUpdater.autoDownload = true
+      let lastCheck = 0
+
+      function safeCheck() {
+        const now = Date.now()
+        if (now - lastCheck < 3_600_000) return
+        lastCheck = now
+        autoUpdater.checkForUpdates().catch(console.error)
+      }
+
+      safeCheck()
+      setInterval(safeCheck, 4 * 3_600_000)
+      if (win) win.on('focus', safeCheck)
+
+      autoUpdater.on('update-available', info => {
+        if (win) win.webContents.send('update-available', { version: info.version })
+      })
+      autoUpdater.on('update-downloaded', () => {
+        if (win) win.webContents.send('update-downloaded')
+      })
+    } catch (e) {
+      console.error('Auto-updater init failed:', e)
+    }
+  }
+
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit()
+})
+
+// ── IPC handlers ────────────────────────────────────────────────────────────
+
+ipcMain.handle('install-update', () => {
+  try {
+    const { autoUpdater } = require('electron-updater')
+    autoUpdater.quitAndInstall(true, true)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+ipcMain.handle('save-pdf', async (_, filename, buffer) => {
+  const { filePath, canceled } = await dialog.showSaveDialog(win, {
+    defaultPath: filename,
+    filters: [{ name: 'PDF Files', extensions: ['pdf'] }],
+  })
+  if (!canceled && filePath) {
+    fs.writeFileSync(filePath, Buffer.from(buffer))
+    return filePath
+  }
+  return null
+})
+
+ipcMain.handle('save-file', async (_, filename, content) => {
+  const { filePath, canceled } = await dialog.showSaveDialog(win, {
+    defaultPath: filename,
+    filters: [{ name: 'All Files', extensions: ['*'] }],
+  })
+  if (!canceled && filePath) {
+    fs.writeFileSync(filePath, content, 'utf-8')
+    return filePath
+  }
+  return null
+})
