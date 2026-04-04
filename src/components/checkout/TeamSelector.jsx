@@ -4,11 +4,23 @@ export default function TeamSelector({ onSelect }) {
   return (
     <div className="page-enter max-w-2xl mx-auto px-4 py-8">
       <div className="flex flex-col items-center mb-10">
-        <img
-          src="./applogo.jpg"
-          alt="Inventaire246"
-          className="w-20 h-20 rounded-3xl object-cover shadow-apple-md mb-5"
-        />
+        <button
+          onClick={async () => {
+            if ('serviceWorker' in navigator) {
+              const regs = await navigator.serviceWorker.getRegistrations()
+              for (const r of regs) await r.unregister()
+              const keys = await caches.keys()
+              for (const k of keys) await caches.delete(k)
+            }
+            window.location.reload(true)
+          }}
+        >
+          <img
+            src="./applogo.jpg"
+            alt="Inventaire246"
+            className="w-20 h-20 rounded-3xl object-cover shadow-apple-md mb-5 active:scale-95 transition-transform"
+          />
+        </button>
         <h1 className="text-xl font-bold text-apple-dark text-center">
           Sélectionnez votre unité scoute
         </h1>
