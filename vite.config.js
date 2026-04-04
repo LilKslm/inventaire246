@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Scout Inventory Keeper',
-        short_name: 'Inventory',
+        name: 'Inventaire246',
+        short_name: 'Inventaire246',
         description: 'Gestion des inventaires scouts',
         theme_color: '#007AFF',
         background_color: '#F2F2F7',

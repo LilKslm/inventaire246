@@ -25,7 +25,7 @@ export default function ItemRow({ item, cartQty, onAdd, onRemove, teamColor }) {
         <span className={`text-xs font-semibold ${available > 0 ? 'text-apple-green' : 'text-apple-red'}`}>
           {available}/{item.totalQty}
         </span>
-        <p className="text-xs text-apple-tertiary">avail.</p>
+        <p className="text-xs text-apple-tertiary">dispo.</p>
       </div>
 
       {/* Stepper */}
@@ -49,7 +49,7 @@ export default function ItemRow({ item, cartQty, onAdd, onRemove, teamColor }) {
           </button>
         </div>
       ) : (
-        <span className="text-xs text-apple-red font-medium shrink-0">Unavailable</span>
+        <span className="text-xs text-apple-red font-medium shrink-0">Indisponible</span>
       )}
     </div>
   )

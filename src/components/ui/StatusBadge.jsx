@@ -7,11 +7,11 @@ const STYLES = {
 }
 
 const LABELS = {
-  active:   'Active',
-  returned: 'Returned',
-  green:    'On time',
-  yellow:   'Due soon',
-  red:      'Overdue',
+  active:   'Actif',
+  returned: 'Retourné',
+  green:    'À temps',
+  yellow:   'Bientôt dû',
+  red:      'En retard',
 }
 
 export default function StatusBadge({ status }) {

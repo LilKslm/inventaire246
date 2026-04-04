@@ -1,4 +1,4 @@
-export default function ConfirmModal({ title, message, confirmLabel = 'Confirm', onConfirm, onCancel, danger = false }) {
+export default function ConfirmModal({ title, message, confirmLabel = 'Confirmer', onConfirm, onCancel, danger = false }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-apple-lg p-6 max-w-sm w-full">
@@ -9,7 +9,7 @@ export default function ConfirmModal({ title, message, confirmLabel = 'Confirm',
             onClick={onCancel}
             className="px-4 py-2 rounded-xl text-sm font-medium text-apple-secondary bg-apple-gray hover:bg-apple-gray-2 transition-colors"
           >
-            Cancel
+            Annuler
           </button>
           <button
             onClick={onConfirm}

@@ -52,8 +52,8 @@ export default function ImportDropzone() {
         className="w-full px-5 py-4 flex items-center justify-between text-left"
       >
         <div>
-          <p className="text-sm font-semibold text-apple-dark">Import from Excel / CSV</p>
-          <p className="text-xs text-apple-secondary mt-0.5">Bulk import inventory items from a spreadsheet</p>
+          <p className="text-sm font-semibold text-apple-dark">Importer depuis Excel / CSV</p>
+          <p className="text-xs text-apple-secondary mt-0.5">Importation en lot depuis un fichier tableur</p>
         </div>
         <span className="text-apple-tertiary text-lg">{open ? '▲' : '▼'}</span>
       </button>
@@ -84,11 +84,11 @@ export default function ImportDropzone() {
               className="hidden"
             />
             {loading ? (
-              <p className="text-sm text-apple-secondary">Importing…</p>
+              <p className="text-sm text-apple-secondary">Importation…</p>
             ) : (
               <>
                 <p className="text-2xl mb-2">📂</p>
-                <p className="text-sm font-medium text-apple-dark">Drop file here or click to browse</p>
+                <p className="text-sm font-medium text-apple-dark">Glissez un fichier ici ou cliquez pour parcourir</p>
                 <p className="text-xs text-apple-tertiary mt-1">.xlsx, .xls, .csv</p>
               </>
             )}
@@ -99,7 +99,7 @@ export default function ImportDropzone() {
           )}
           {result && (
             <p className="text-xs text-apple-green mt-3">
-              ✓ Successfully imported {result.count} item{result.count !== 1 ? 's' : ''}!
+              ✓ {result.count} article{result.count !== 1 ? 's' : ''} importé{result.count !== 1 ? 's' : ''} avec succès!
             </p>
           )}
         </div>

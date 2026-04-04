@@ -35,7 +35,7 @@ export default function ReturnConfirm({ personName, checkouts, onDone, onBack })
       await returnItems(toReturn)
       onDone()
     } catch (err) {
-      setError('Failed to process return. Please try again.')
+      setError('Échec du retour. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -44,12 +44,12 @@ export default function ReturnConfirm({ personName, checkouts, onDone, onBack })
   return (
     <div className="page-enter max-w-lg mx-auto px-4 py-8">
       <button onClick={onBack} className="text-apple-secondary hover:text-apple-dark text-sm mb-6 block transition-colors">
-        ← Back
+        ← Retour
       </button>
 
-      <h2 className="text-xl font-bold text-apple-dark mb-1">Active Checkouts</h2>
+      <h2 className="text-xl font-bold text-apple-dark mb-1">Réservations actives</h2>
       <p className="text-apple-secondary text-sm mb-6">
-        Showing items for <strong>{personName}</strong>. Select items you're returning.
+        Articles pour <strong>{personName}</strong>. Sélectionnez les articles que vous retournez.
       </p>
 
       {/* Select all */}
@@ -57,7 +57,7 @@ export default function ReturnConfirm({ personName, checkouts, onDone, onBack })
         onClick={toggleAll}
         className="text-sm text-apple-blue font-medium mb-3 block"
       >
-        {selected.size === checkouts.length ? 'Deselect all' : 'Select all'}
+        {selected.size === checkouts.length ? 'Tout désélectionner' : 'Tout sélectionner'}
       </button>
 
       {/* Checkout cards */}
@@ -94,7 +94,7 @@ export default function ReturnConfirm({ personName, checkouts, onDone, onBack })
                       {co.teamName}
                     </span>
                     <StatusBadge status={urgency} />
-                    <span className="text-xs text-apple-tertiary">Due {formatDate(returnDate)}</span>
+                    <span className="text-xs text-apple-tertiary">Dû le {formatDate(returnDate)}</span>
                   </div>
                   {co.storageLocation && (
                     <p className="text-xs text-apple-tertiary mt-0.5">{co.storageLocation}</p>
@@ -115,7 +115,7 @@ export default function ReturnConfirm({ personName, checkouts, onDone, onBack })
         disabled={selected.size === 0 || loading}
         className="w-full py-3.5 rounded-2xl font-semibold text-sm text-white bg-apple-blue hover:bg-apple-blue-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {loading ? 'Processing…' : `Return ${selected.size} item${selected.size !== 1 ? 's' : ''}`}
+        {loading ? 'En cours…' : `Retourner ${selected.size} article${selected.size !== 1 ? 's' : ''}`}
       </button>
     </div>
   )

@@ -14,12 +14,12 @@ export default function PersonLookup({ onFound }) {
     try {
       const results = await getActiveCheckoutsByName(name.trim())
       if (results.length === 0) {
-        setError(`No active checkouts found for "${name.trim()}"`)
+        setError(`Aucune réservation active trouvée pour "${name.trim()}"`)
       } else {
         onFound(name.trim(), results)
       }
     } catch (err) {
-      setError('Failed to search. Please try again.')
+      setError('Échec de la recherche. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -27,11 +27,11 @@ export default function PersonLookup({ onFound }) {
 
   return (
     <div className="page-enter max-w-lg mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-apple-dark mb-1">Return Items</h1>
-      <p className="text-apple-secondary text-sm mb-8">Enter your name to find your active checkouts.</p>
+      <h1 className="text-2xl font-bold text-apple-dark mb-1">Retourner des articles</h1>
+      <p className="text-apple-secondary text-sm mb-8">Entrez votre nom pour trouver vos réservations actives.</p>
 
       <form onSubmit={handleSearch}>
-        <label className="block text-sm font-semibold text-apple-dark mb-2">Your Name</label>
+        <label className="block text-sm font-semibold text-apple-dark mb-2">Votre nom</label>
         <input
           type="text"
           value={name}
@@ -48,7 +48,7 @@ export default function PersonLookup({ onFound }) {
           disabled={!name.trim() || loading}
           className="w-full py-3 rounded-xl font-semibold text-sm text-white bg-apple-blue hover:bg-apple-blue-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {loading ? 'Searching…' : 'Find My Checkouts →'}
+          {loading ? 'Recherche…' : 'Trouver mes réservations →'}
         </button>
       </form>
     </div>

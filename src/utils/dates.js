@@ -26,11 +26,11 @@ export function urgencyClass(returnDate, status) {
   return 'green'
 }
 
-const DATE_FORMAT = new Intl.DateTimeFormat('en-CA', {
+const DATE_FORMAT = new Intl.DateTimeFormat('fr-CA', {
   year: 'numeric', month: 'long', day: 'numeric',
 })
 
-const DATE_FORMAT_SHORT = new Intl.DateTimeFormat('en-CA', {
+const DATE_FORMAT_SHORT = new Intl.DateTimeFormat('fr-CA', {
   month: 'short', day: 'numeric',
 })
 
@@ -46,7 +46,7 @@ export function formatDateShort(date) {
 
 export function formatDateTime(date) {
   if (!date) return '—'
-  return new Intl.DateTimeFormat('en-CA', {
+  return new Intl.DateTimeFormat('fr-CA', {
     month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
   }).format(new Date(date))
 }

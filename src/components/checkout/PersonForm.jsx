@@ -25,16 +25,16 @@ export default function PersonForm({ team, draft, onChange, onNext, onBack }) {
     <div className="page-enter max-w-lg mx-auto px-4 py-8">
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="text-apple-secondary hover:text-apple-dark transition-colors">
-          ← Back
+          ← Retour
         </button>
         <TeamBadge team={team} size="lg" />
       </div>
 
-      <h2 className="text-xl font-bold text-apple-dark mb-6">Your Details</h2>
+      <h2 className="text-xl font-bold text-apple-dark mb-6">Vos informations</h2>
 
       {/* Name */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold text-apple-dark mb-2">Your Name</label>
+        <label className="block text-sm font-semibold text-apple-dark mb-2">Votre nom</label>
         <input
           type="text"
           value={personName}
@@ -48,7 +48,7 @@ export default function PersonForm({ team, draft, onChange, onNext, onBack }) {
 
       {/* Duration */}
       <div className="mb-6">
-        <label className="block text-sm font-semibold text-apple-dark mb-2">How long?</label>
+        <label className="block text-sm font-semibold text-apple-dark mb-2">Pour combien de temps?</label>
         <div className="grid grid-cols-3 gap-2 mb-3">
           {DURATION_OPTIONS.map(dur => (
             <button
@@ -68,7 +68,7 @@ export default function PersonForm({ team, draft, onChange, onNext, onBack }) {
 
         <div className="flex items-center gap-2">
           <div className="flex-1 h-px bg-apple-gray-2" />
-          <span className="text-xs text-apple-tertiary">or custom</span>
+          <span className="text-xs text-apple-tertiary">ou personnalisé</span>
           <div className="flex-1 h-px bg-apple-gray-2" />
         </div>
 
@@ -83,14 +83,14 @@ export default function PersonForm({ team, draft, onChange, onNext, onBack }) {
             className="w-20 text-center bg-white border border-apple-gray-2 rounded-xl px-3 py-2.5 text-apple-dark placeholder-apple-tertiary focus:outline-none focus:ring-2 focus:border-transparent shadow-apple"
             style={{ '--tw-ring-color': team.color }}
           />
-          <span className="text-sm text-apple-secondary">days</span>
+          <span className="text-sm text-apple-secondary">jours</span>
         </div>
       </div>
 
       {/* Return date preview */}
       {returnDate && (
         <div className="rounded-xl bg-white border border-apple-gray-2 px-4 py-3 mb-6 shadow-apple">
-          <p className="text-xs text-apple-tertiary mb-0.5">Expected return</p>
+          <p className="text-xs text-apple-tertiary mb-0.5">Retour prévu</p>
           <p className="text-sm font-semibold text-apple-dark">{formatDate(returnDate)}</p>
         </div>
       )}
@@ -101,7 +101,7 @@ export default function PersonForm({ team, draft, onChange, onNext, onBack }) {
         className="w-full py-3 rounded-xl font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         style={{ backgroundColor: canProceed ? team.color : '#C7C7CC', color: canProceed ? team.textColor : '#fff' }}
       >
-        Browse Equipment →
+        Parcourir l'équipement →
       </button>
     </div>
   )

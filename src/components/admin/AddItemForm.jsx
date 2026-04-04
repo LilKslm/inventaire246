@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { addInventoryItem } from '../../utils/firebase.js'
 import { CATEGORIES } from '../../constants/teams.js'
 
-const ITEM_CATEGORIES = CATEGORIES.filter(c => c !== 'All')
+const ITEM_CATEGORIES = CATEGORIES.filter(c => c !== 'Tout')
 
-const EMPTY = { name: '', category: 'Misc', storageLocation: '', totalQty: 1 }
+const EMPTY = { name: '', category: 'Divers', storageLocation: '', totalQty: 1 }
 
 export default function AddItemForm() {
   const [form, setForm] = useState(EMPTY)
@@ -35,7 +35,7 @@ export default function AddItemForm() {
       setSuccess(true)
       setForm(EMPTY)
     } catch (err) {
-      setError('Failed to add item. Please try again.')
+      setError('Échec de l\'ajout. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -48,8 +48,8 @@ export default function AddItemForm() {
         className="w-full px-5 py-4 flex items-center justify-between text-left"
       >
         <div>
-          <p className="text-sm font-semibold text-apple-dark">Add New Item</p>
-          <p className="text-xs text-apple-secondary mt-0.5">Expand to add a single inventory item</p>
+          <p className="text-sm font-semibold text-apple-dark">Ajouter un article</p>
+          <p className="text-xs text-apple-secondary mt-0.5">Ajouter un article individuellement</p>
         </div>
         <span className="text-apple-tertiary text-lg">{open ? '▲' : '▼'}</span>
       </button>
@@ -58,17 +58,17 @@ export default function AddItemForm() {
         <form onSubmit={handleSubmit} className="px-5 pb-5 border-t border-apple-gray-2 pt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <div>
-              <label className="block text-xs font-semibold text-apple-secondary mb-1">Item Name *</label>
+              <label className="block text-xs font-semibold text-apple-secondary mb-1">Nom de l'article *</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={e => update('name', e.target.value)}
-                placeholder="e.g. Large Tent 4-person"
+                placeholder="ex. Grande tente 4 places"
                 className="w-full bg-apple-gray rounded-xl px-3 py-2 text-sm text-apple-dark placeholder-apple-tertiary focus:outline-none focus:ring-2 focus:ring-apple-blue"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-apple-secondary mb-1">Category</label>
+              <label className="block text-xs font-semibold text-apple-secondary mb-1">Catégorie</label>
               <select
                 value={form.category}
                 onChange={e => update('category', e.target.value)}
@@ -80,17 +80,17 @@ export default function AddItemForm() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-apple-secondary mb-1">Storage Location</label>
+              <label className="block text-xs font-semibold text-apple-secondary mb-1">Emplacement</label>
               <input
                 type="text"
                 value={form.storageLocation}
                 onChange={e => update('storageLocation', e.target.value)}
-                placeholder="e.g. Shelf A2"
+                placeholder="ex. Étagère A2"
                 className="w-full bg-apple-gray rounded-xl px-3 py-2 text-sm text-apple-dark placeholder-apple-tertiary focus:outline-none focus:ring-2 focus:ring-apple-blue"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-apple-secondary mb-1">Total Quantity</label>
+              <label className="block text-xs font-semibold text-apple-secondary mb-1">Quantité totale</label>
               <input
                 type="number"
                 min="1"
@@ -102,14 +102,14 @@ export default function AddItemForm() {
           </div>
 
           {error && <p className="text-xs text-apple-red mb-3">{error}</p>}
-          {success && <p className="text-xs text-apple-green mb-3">✓ Item added successfully!</p>}
+          {success && <p className="text-xs text-apple-green mb-3">✓ Article ajouté avec succès!</p>}
 
           <button
             type="submit"
             disabled={!form.name.trim() || loading}
             className="w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-apple-blue hover:bg-apple-blue-dark transition-colors disabled:opacity-40"
           >
-            {loading ? 'Adding…' : 'Add to Inventory'}
+            {loading ? 'Ajout…' : 'Ajouter à l\'inventaire'}
           </button>
         </form>
       )}

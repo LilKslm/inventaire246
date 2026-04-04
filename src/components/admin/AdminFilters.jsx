@@ -13,7 +13,7 @@ export default function AdminFilters({ teamFilter, setTeamFilter, statusFilter, 
               : 'bg-white text-apple-secondary border border-apple-gray-2'
           }`}
         >
-          All Teams
+          Toutes les unités
         </button>
         {TEAMS.map(team => (
           <button
@@ -35,17 +35,17 @@ export default function AdminFilters({ teamFilter, setTeamFilter, statusFilter, 
 
       {/* Status filter */}
       <div className="flex items-center gap-1 ml-auto">
-        {['all', 'active', 'returned'].map(s => (
+        {[{ key: 'all', label: 'Tout' }, { key: 'active', label: 'Actif' }, { key: 'returned', label: 'Retourné' }].map(s => (
           <button
-            key={s}
-            onClick={() => setStatusFilter(s)}
+            key={s.key}
+            onClick={() => setStatusFilter(s.key)}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-              statusFilter === s
+              statusFilter === s.key
                 ? 'bg-apple-blue text-white'
                 : 'bg-white text-apple-secondary border border-apple-gray-2'
             }`}
           >
-            {s.charAt(0).toUpperCase() + s.slice(1)}
+            {s.label}
           </button>
         ))}
       </div>

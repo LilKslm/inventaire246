@@ -28,22 +28,22 @@ export default function AdminPage() {
 
   return (
     <div className="page-enter max-w-5xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-apple-dark mb-1">Admin Dashboard</h1>
-      <p className="text-apple-secondary text-sm mb-6">Real-time inventory and checkout overview.</p>
+      <h1 className="text-2xl font-bold text-apple-dark mb-1">Tableau de bord</h1>
+      <p className="text-apple-secondary text-sm mb-6">Aperçu en temps réel de l'inventaire et des réservations.</p>
 
       {/* Summary stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <StatCard label="Active" value={stats.activeCount} color="text-apple-blue" />
-        <StatCard label="Due Soon" value={stats.dueSoonCount} color="text-yellow-600" />
-        <StatCard label="Overdue" value={stats.overdueCount} color="text-apple-red" />
+        <StatCard label="Actif" value={stats.activeCount} color="text-apple-blue" />
+        <StatCard label="Bientôt dû" value={stats.dueSoonCount} color="text-yellow-600" />
+        <StatCard label="En retard" value={stats.overdueCount} color="text-apple-red" />
       </div>
 
       {/* Tab bar */}
       <div className="flex gap-1 bg-apple-gray rounded-xl p-1 mb-4 w-fit">
         {[
-          { id: 'checkouts', label: 'Checkouts' },
-          { id: 'inventory', label: 'Inventory' },
-          { id: 'import',    label: 'Add / Import' },
+          { id: 'checkouts', label: 'Réservations' },
+          { id: 'inventory', label: 'Inventaire' },
+          { id: 'import',    label: 'Ajouter / Importer' },
         ].map(t => (
           <button
             key={t.id}
@@ -80,15 +80,15 @@ export default function AdminPage() {
           {inventoryLoading ? (
             <p className="text-sm text-apple-tertiary text-center py-8">Loading…</p>
           ) : items.length === 0 ? (
-            <p className="text-sm text-apple-tertiary text-center py-8">No items yet. Import or add items.</p>
+            <p className="text-sm text-apple-tertiary text-center py-8">Aucun article. Importez ou ajoutez des articles.</p>
           ) : (
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-apple-gray">
-                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary">Item</th>
-                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary">Category</th>
-                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary hidden sm:table-cell">Location</th>
-                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary text-center">Available</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary">Article</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary">Catégorie</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary hidden sm:table-cell">Emplacement</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary text-center">Disponible</th>
                   <th className="px-4 py-2.5 text-xs font-semibold text-apple-secondary text-center">Total</th>
                 </tr>
               </thead>

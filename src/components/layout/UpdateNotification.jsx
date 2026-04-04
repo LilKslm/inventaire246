@@ -22,16 +22,16 @@ export default function UpdateNotification() {
       <div className="flex-1 min-w-0">
         {state === 'available' ? (
           <p className="text-sm text-apple-dark font-medium">
-            Update {version} downloading…
+            Mise à jour {version} en cours…
           </p>
         ) : (
           <>
-            <p className="text-sm text-apple-dark font-medium">Update ready!</p>
+            <p className="text-sm text-apple-dark font-medium">Mise à jour prête!</p>
             <button
               onClick={() => window.electronAPI.installUpdate()}
               className="mt-1 text-xs text-apple-blue font-semibold"
             >
-              Restart to install
+              Redémarrer pour installer
             </button>
           </>
         )}

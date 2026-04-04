@@ -114,7 +114,7 @@ export default function CheckoutPage() {
       localStorage.removeItem(DRAFT_KEY)
       setStep(STEPS.SUCCESS)
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.')
+      setError(err.message || 'Une erreur est survenue. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
@@ -141,22 +141,22 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-apple p-6">
-          <p className="text-base font-semibold text-apple-dark mb-1">Resume checkout?</p>
+          <p className="text-base font-semibold text-apple-dark mb-1">Reprendre la réservation?</p>
           <p className="text-sm text-apple-secondary mb-5">
-            {saved?.personName} ({saved?.team?.label}) has an unfinished checkout.
+            {saved?.personName} ({saved?.team?.label}) a une réservation en cours.
           </p>
           <div className="flex gap-3">
             <button
               onClick={() => { setResumePrompt(false); localStorage.removeItem(DRAFT_KEY) }}
               className="flex-1 py-2.5 rounded-xl text-sm font-medium text-apple-secondary bg-apple-gray hover:bg-apple-gray-2"
             >
-              Start fresh
+              Recommencer
             </button>
             <button
               onClick={handleResume}
               className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-apple-blue hover:bg-apple-blue-dark"
             >
-              Resume
+              Reprendre
             </button>
           </div>
         </div>
@@ -167,20 +167,25 @@ export default function CheckoutPage() {
   // ── Success ────────────────────────────────────────────────────────────────
   if (step === STEPS.SUCCESS) {
     return (
-      <div className="page-enter max-w-lg mx-auto px-4 py-16 text-center">
-        <div className="text-6xl mb-4">✅</div>
-        <h2 className="text-xl font-bold text-apple-dark mb-2">Checkout Complete!</h2>
+      <div className="page-enter max-w-lg mx-auto px-4 py-10 text-center">
+        <img
+          src="./inventory.jpg"
+          alt="Scout inventory"
+          className="w-full max-w-sm mx-auto rounded-2xl shadow-apple-md mb-6 object-cover h-44"
+        />
+        <div className="text-5xl mb-3">✅</div>
+        <h2 className="text-xl font-bold text-apple-dark mb-2">Réservation complétée!</h2>
         <p className="text-apple-secondary text-sm mb-2">
-          Receipt PDF has been downloaded.
+          Le reçu PDF a été téléchargé.
         </p>
         <p className="text-apple-secondary text-sm mb-8">
-          Remember to pick up your items from their storage locations.
+          N'oubliez pas de récupérer vos articles à leurs emplacements.
         </p>
         <button
           onClick={handleNewCheckout}
           className="px-8 py-3 rounded-2xl font-semibold text-sm text-white bg-apple-blue hover:bg-apple-blue-dark transition-colors"
         >
-          New Checkout
+          Nouvelle réservation
         </button>
       </div>
     )
@@ -212,7 +217,7 @@ export default function CheckoutPage() {
         <div className="px-4 py-3 bg-white border-b border-apple-gray-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button onClick={() => setStep(STEPS.PERSON)} className="text-apple-secondary hover:text-apple-dark text-sm transition-colors">
-              ← Back
+              ← Retour
             </button>
             <TeamBadge team={draft.team} />
             <span className="text-xs text-apple-secondary">{draft.personName}</span>
@@ -222,7 +227,7 @@ export default function CheckoutPage() {
             onClick={() => setStep(STEPS.REVIEW)}
             className="sm:hidden relative text-sm font-medium text-apple-blue"
           >
-            Cart {draft.cart.length > 0 && (
+            🛒 Panier {draft.cart.length > 0 && (
               <span className="ml-1 bg-apple-red text-white rounded-full text-xs w-4 h-4 inline-flex items-center justify-center">
                 {draft.cart.length}
               </span>
@@ -261,7 +266,7 @@ export default function CheckoutPage() {
             className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40"
             style={{ backgroundColor: draft.team.color, color: draft.team.textColor }}
           >
-            Review ({draft.cart.reduce((s, c) => s + c.quantity, 0)} items) →
+            Réservation ({draft.cart.reduce((s, c) => s + c.quantity, 0)} articles) →
           </button>
         </div>
       </div>

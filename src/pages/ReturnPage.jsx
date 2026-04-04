@@ -19,15 +19,15 @@ export default function ReturnPage() {
     return (
       <div className="page-enter max-w-lg mx-auto px-4 py-16 text-center">
         <div className="text-6xl mb-4">✅</div>
-        <h2 className="text-xl font-bold text-apple-dark mb-2">Return Processed!</h2>
+        <h2 className="text-xl font-bold text-apple-dark mb-2">Retour effectué!</h2>
         <p className="text-apple-secondary text-sm mb-8">
-          Items have been returned to inventory. Thank you!
+          Les articles ont été retournés à l'inventaire. Merci!
         </p>
         <button
           onClick={() => { setStep(STEPS.LOOKUP); setPersonName(''); setCheckouts([]) }}
           className="px-8 py-3 rounded-2xl font-semibold text-sm text-white bg-apple-blue hover:bg-apple-blue-dark transition-colors"
         >
-          Return More Items
+          Retourner d'autres articles
         </button>
       </div>
     )

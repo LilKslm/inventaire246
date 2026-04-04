@@ -18,6 +18,9 @@ export default function App() {
         {activePage === PAGES.RETURN   && <ReturnPage />}
         {activePage === PAGES.ADMIN    && <AdminPage />}
       </main>
+      <footer className="text-center pt-8 pb-20 sm:pb-6 text-xs italic text-gray-400">
+        Fait par Chef Khalil 2026
+      </footer>
       <UpdateNotification />
     </div>
   )
