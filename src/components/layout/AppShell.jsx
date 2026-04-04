@@ -17,10 +17,17 @@ export default function AppShell({ activePage, onNavigate }) {
 
           {/* Logo + title — clickable to go home (hard refresh on mobile PWA) */}
           <button
-            onClick={() => {
+            onClick={async () => {
               const isMobile = window.innerWidth < 640
               if (isMobile && window.matchMedia('(display-mode: standalone)').matches) {
-                window.location.reload()
+                // Clear SW cache + hard reload to pick up updates
+                if ('serviceWorker' in navigator) {
+                  const regs = await navigator.serviceWorker.getRegistrations()
+                  for (const r of regs) await r.unregister()
+                  const keys = await caches.keys()
+                  for (const k of keys) await caches.delete(k)
+                }
+                window.location.href = window.location.origin + window.location.pathname
               } else {
                 onNavigate(PAGES.CHECKOUT)
               }

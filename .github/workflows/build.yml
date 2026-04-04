@@ -1,39 +1,46 @@
-name: Build & Release Electron App
+name: Build Desktop Apps
 
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: Inventaire246-Windows.exe
+            build_flag: --win
+          - os: macos-latest
+            artifact: Inventaire246-Mac.dmg
+            build_flag: --mac
+
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.4.0
         with:
-          node-version: 20
-          cache: npm
+          node-version: '22'
+          cache: 'npm'
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Build Electron app
+      - name: Build web app
+        run: npm run build
+
+      - name: Build desktop app
+        run: npx electron-builder ${{ matrix.build_flag }} --publish always
         env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run electron:build
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: inventaire246-windows
-          path: release/*.exe
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release/*.exe
-          draft: false
-          prerelease: false

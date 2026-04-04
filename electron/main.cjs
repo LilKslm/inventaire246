@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { autoUpdater } = require('electron-updater')
 const path = require('path')
 const fs = require('fs')
 
@@ -29,33 +30,32 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow()
 
-  // Auto-updater (packaged builds only)
+  // Auto-updater (production only)
   if (app.isPackaged) {
-    try {
-      const { autoUpdater } = require('electron-updater')
-      autoUpdater.autoDownload = true
-      let lastCheck = 0
+    autoUpdater.autoDownload = true
+    autoUpdater.autoInstallOnAppQuit = true
 
-      function safeCheck() {
-        const now = Date.now()
-        if (now - lastCheck < 3_600_000) return
-        lastCheck = now
-        autoUpdater.checkForUpdates().catch(console.error)
-      }
+    autoUpdater.on('update-available', info => {
+      if (win) win.webContents.send('update-available', { version: info.version })
+    })
+    autoUpdater.on('update-downloaded', () => {
+      if (win) win.webContents.send('update-downloaded')
+    })
+    autoUpdater.on('error', err => {
+      console.error('AutoUpdater error:', err.message)
+    })
 
-      safeCheck()
-      setInterval(safeCheck, 4 * 3_600_000)
-      if (win) win.on('focus', safeCheck)
-
-      autoUpdater.on('update-available', info => {
-        if (win) win.webContents.send('update-available', { version: info.version })
-      })
-      autoUpdater.on('update-downloaded', () => {
-        if (win) win.webContents.send('update-downloaded')
-      })
-    } catch (e) {
-      console.error('Auto-updater init failed:', e)
+    let lastCheck = 0
+    function safeCheck() {
+      const now = Date.now()
+      if (now - lastCheck < 3_600_000) return
+      lastCheck = now
+      autoUpdater.checkForUpdates().catch(err => console.error('Update check failed:', err))
     }
+
+    safeCheck()
+    setInterval(safeCheck, 4 * 3_600_000)
+    win.on('focus', safeCheck)
   }
 
   app.on('activate', () => {
@@ -70,12 +70,7 @@ app.on('window-all-closed', () => {
 // ── IPC handlers ────────────────────────────────────────────────────────────
 
 ipcMain.handle('install-update', () => {
-  try {
-    const { autoUpdater } = require('electron-updater')
-    autoUpdater.quitAndInstall(true, true)
-  } catch (e) {
-    console.error(e)
-  }
+  autoUpdater.quitAndInstall(true, true)
 })
 
 ipcMain.handle('save-pdf', async (_, filename, buffer) => {
