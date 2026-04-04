@@ -1,7 +1,7 @@
 {
   "name": "inventaire246",
   "productName": "Inventaire246",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "type": "module",
   "main": "electron/main.cjs",
@@ -37,8 +37,8 @@
     "wait-on": "^7.2.0"
   },
   "build": {
-    "appId": "com.scout.inventory-keeper",
-    "productName": "Scout Inventory Keeper",
+    "appId": "com.scout.inventaire246",
+    "productName": "Inventaire246",
     "directories": {
       "output": "release",
       "buildResources": "build-resources"
