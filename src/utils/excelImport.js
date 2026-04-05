@@ -6,7 +6,11 @@ async function getXLSX() {
 
 /**
  * Parse an inventory XLSX/CSV file.
- * Expected columns (case-insensitive): Name, Category, Storage Location, Total Quantity
+ * Accepts columns in English OR French (case-insensitive):
+ *   Name / Nom
+ *   Category / Catégorie
+ *   Storage Location / Emplacement
+ *   Total Quantity / Quantité Totale
  * Returns array of inventory item objects ready for Firestore upsert.
  */
 export async function parseInventoryFile(file) {
@@ -25,14 +29,25 @@ export async function parseInventoryFile(file) {
     return n
   })
 
+  // Helper: pick the first truthy value from a list of possible column names
+  const pick = (r, ...keys) => {
+    for (const k of keys) {
+      if (r[k] !== undefined && r[k] !== '') return r[k]
+    }
+    return ''
+  }
+
   return normalized
-    .filter(r => r['name'] && (r['total quantity'] || r['totalqty'] || r['qty']))
+    .filter(r =>
+      pick(r, 'name', 'nom') &&
+      pick(r, 'total quantity', 'totalqty', 'qty', 'quantité totale', 'quantite totale')
+    )
     .map(r => {
-      const totalQty = Number(r['total quantity'] || r['totalqty'] || r['qty']) || 0
+      const totalQty = Number(pick(r, 'total quantity', 'totalqty', 'qty', 'quantité totale', 'quantite totale')) || 0
       return {
-        name:            String(r['name']).trim(),
-        category:        String(r['category'] || 'Misc').trim(),
-        storageLocation: String(r['storage location'] || r['location'] || '').trim(),
+        name:            String(pick(r, 'name', 'nom')).trim(),
+        category:        String(pick(r, 'category', 'catégorie', 'categorie') || 'Outils').trim(),
+        storageLocation: String(pick(r, 'storage location', 'location', 'emplacement') || '').trim(),
         totalQty,
         availableQty:    totalQty,
       }

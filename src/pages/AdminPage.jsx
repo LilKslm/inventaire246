@@ -7,6 +7,7 @@ import AdminFilters from '../components/admin/AdminFilters.jsx'
 import CheckoutTable from '../components/admin/CheckoutTable.jsx'
 import AddItemForm from '../components/admin/AddItemForm.jsx'
 import ImportDropzone from '../components/admin/ImportDropzone.jsx'
+import { exportInventoryToExcel } from '../utils/excelExport.js'
 
 export default function AdminPage() {
   const { checkouts, loading: checkoutsLoading } = useCheckouts()
@@ -77,6 +78,16 @@ export default function AdminPage() {
       {/* Inventory tab */}
       {tab === 'inventory' && (
         <div className="bg-white rounded-2xl shadow-apple overflow-hidden">
+          {items.length > 0 && (
+            <div className="px-4 pt-4 flex justify-end">
+              <button
+                onClick={() => exportInventoryToExcel(items)}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-apple-blue bg-apple-gray hover:bg-apple-gray-2 transition-colors"
+              >
+                Exporter Excel
+              </button>
+            </div>
+          )}
           {inventoryLoading ? (
             <p className="text-sm text-apple-tertiary text-center py-8">Loading…</p>
           ) : items.length === 0 ? (

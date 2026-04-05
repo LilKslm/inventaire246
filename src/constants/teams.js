@@ -7,7 +7,7 @@ export const TEAMS = [
   { id: 'chefs',    label: 'Chefs',    emoji: '👨‍🍳', color: '#1C1C1E', textColor: '#fff'    },
 ]
 
-export const CATEGORIES = ['Tout', 'Abris', 'Cuisine', 'Éclairage', 'Sécurité', 'Divers']
+export const CATEGORIES = ['Tout', 'Outils', 'Arts&Crafts', 'Camping', 'Branche', 'Groupe', 'Cuisine', 'Nourriture']
 
 export const DURATION_OPTIONS = [
   { label: 'Quelques heures', hours: 6   },

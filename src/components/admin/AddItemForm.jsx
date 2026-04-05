@@ -4,7 +4,7 @@ import { CATEGORIES } from '../../constants/teams.js'
 
 const ITEM_CATEGORIES = CATEGORIES.filter(c => c !== 'Tout')
 
-const EMPTY = { name: '', category: 'Divers', storageLocation: '', totalQty: 1 }
+const EMPTY = { name: '', category: 'Outils', storageLocation: '', totalQty: 1 }
 
 export default function AddItemForm() {
   const [form, setForm] = useState(EMPTY)
