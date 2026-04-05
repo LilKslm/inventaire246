@@ -8,6 +8,7 @@ import CheckoutTable from '../components/admin/CheckoutTable.jsx'
 import AddItemForm from '../components/admin/AddItemForm.jsx'
 import ImportDropzone from '../components/admin/ImportDropzone.jsx'
 import { exportInventoryToExcel } from '../utils/excelExport.js'
+import { deleteAllInventoryItems } from '../utils/firebase.js'
 
 export default function AdminPage() {
   const { checkouts, loading: checkoutsLoading } = useCheckouts()
@@ -128,6 +129,29 @@ export default function AdminPage() {
         <div className="space-y-4">
           <AddItemForm />
           <ImportDropzone />
+
+          {/* Export & Clear actions */}
+          <div className="flex gap-3">
+            {items.length > 0 && (
+              <button
+                onClick={() => exportInventoryToExcel(items)}
+                className="flex-1 py-3 rounded-2xl text-sm font-semibold text-apple-blue bg-white shadow-apple hover:bg-apple-gray transition-colors"
+              >
+                Exporter l'inventaire (Excel)
+              </button>
+            )}
+            {items.length > 0 && (
+              <button
+                onClick={async () => {
+                  if (!window.confirm(`Supprimer les ${items.length} articles de l'inventaire? Cette action est irréversible.`)) return
+                  await deleteAllInventoryItems()
+                }}
+                className="flex-1 py-3 rounded-2xl text-sm font-semibold text-apple-red bg-white shadow-apple hover:bg-red-50 transition-colors"
+              >
+                Vider l'inventaire
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

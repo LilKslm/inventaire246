@@ -63,6 +63,17 @@ export async function upsertInventoryItem(item) {
   }
 }
 
+export async function deleteAllInventoryItems() {
+  const db = await getDb()
+  const { collection, getDocs, writeBatch } = await import('firebase/firestore')
+  const snap = await getDocs(collection(db, 'inventoryItems'))
+  if (snap.empty) return 0
+  const batch = writeBatch(db)
+  snap.docs.forEach(d => batch.delete(d.ref))
+  await batch.commit()
+  return snap.size
+}
+
 // ── Checkouts ──────────────────────────────────────────────────────────────
 
 export function subscribeToCheckouts(onChange) {
