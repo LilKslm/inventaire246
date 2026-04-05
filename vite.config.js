@@ -23,9 +23,18 @@ export default defineConfig({
         ],
       },
       workbox: {
+        clientsClaim: true,
         globPatterns: ['**/*.{css,html,ico,png,svg}', 'assets/index-*.js'],
         globIgnores: ['**/index.esm-*.js', '**/xlsx-*.js'],
         runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pages',
+              expiration: { maxEntries: 5, maxAgeSeconds: 86400 },
+            },
+          },
           {
             urlPattern: /assets\/(index\.esm|xlsx)-.*\.js$/,
             handler: 'CacheFirst',

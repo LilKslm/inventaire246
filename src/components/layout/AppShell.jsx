@@ -18,14 +18,21 @@ export default function AppShell({ activePage, onNavigate }) {
           {/* Logo + title — clickable to go home (hard refresh on mobile PWA) */}
           <button
             onClick={async () => {
-              // Clear SW cache + hard reload to pick up updates
+              // Force update + clear all caches, then hard reload (iOS PWA safe)
               if ('serviceWorker' in navigator) {
                 const regs = await navigator.serviceWorker.getRegistrations()
-                for (const r of regs) await r.unregister()
+                for (const r of regs) {
+                  try { await r.update() } catch (_) {}
+                  await r.unregister()
+                }
                 const keys = await caches.keys()
                 for (const k of keys) await caches.delete(k)
               }
-              window.location.replace(window.location.pathname + '?_=' + Date.now())
+              // Bust iOS HTTP cache by fetching fresh index.html before navigating
+              try {
+                await fetch(window.location.pathname, { cache: 'no-store' })
+              } catch (_) {}
+              window.location.href = window.location.pathname + '?_=' + Date.now()
             }}
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
           >
