@@ -79,16 +79,6 @@ export default function AdminPage() {
       {/* Inventory tab */}
       {tab === 'inventory' && (
         <div className="bg-white rounded-2xl shadow-apple overflow-hidden">
-          {items.length > 0 && (
-            <div className="px-4 pt-4 flex justify-end">
-              <button
-                onClick={() => exportInventoryToExcel(items)}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-apple-blue bg-apple-gray hover:bg-apple-gray-2 transition-colors"
-              >
-                Exporter Excel
-              </button>
-            </div>
-          )}
           {inventoryLoading ? (
             <p className="text-sm text-apple-tertiary text-center py-8">Loading…</p>
           ) : items.length === 0 ? (
@@ -131,7 +121,7 @@ export default function AdminPage() {
           <ImportDropzone />
 
           {/* Export & Clear actions */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             {items.length > 0 && (
               <button
                 onClick={() => exportInventoryToExcel(items)}

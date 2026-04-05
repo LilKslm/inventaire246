@@ -25,7 +25,7 @@ export default function AppShell({ activePage, onNavigate }) {
                 const keys = await caches.keys()
                 for (const k of keys) await caches.delete(k)
               }
-              window.location.reload(true)
+              window.location.replace(window.location.pathname + '?_=' + Date.now())
             }}
             className="flex items-center gap-2 hover:opacity-75 transition-opacity"
           >
