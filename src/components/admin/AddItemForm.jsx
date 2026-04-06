@@ -5,9 +5,11 @@ import { CATEGORIES } from '../../constants/teams.js'
 const ITEM_CATEGORIES = CATEGORIES.filter(c => c !== 'Tout')
 
 const EMPTY = { name: '', category: 'Outils', storageLocation: '', totalQty: 1 }
+const CUSTOM = '__autre__'
 
 export default function AddItemForm() {
   const [form, setForm] = useState(EMPTY)
+  const [customCategory, setCustomCategory] = useState('')
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(null)
@@ -24,16 +26,19 @@ export default function AddItemForm() {
     if (!form.name.trim()) return
     setLoading(true)
     setError(null)
+    const finalCategory = form.category === CUSTOM ? customCategory.trim() : form.category
+    if (!finalCategory) { setError('Veuillez entrer une catégorie.'); setLoading(false); return }
     try {
       await addInventoryItem({
         name: form.name.trim(),
-        category: form.category,
+        category: finalCategory,
         storageLocation: form.storageLocation.trim(),
         totalQty: Number(form.totalQty) || 1,
         availableQty: Number(form.totalQty) || 1,
       })
       setSuccess(true)
       setForm(EMPTY)
+      setCustomCategory('')
     } catch (err) {
       setError('Échec de l\'ajout. Veuillez réessayer.')
     } finally {
@@ -77,7 +82,17 @@ export default function AddItemForm() {
                 {ITEM_CATEGORIES.map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
+                <option value={CUSTOM}>Autre…</option>
               </select>
+              {form.category === CUSTOM && (
+                <input
+                  type="text"
+                  value={customCategory}
+                  onChange={e => setCustomCategory(e.target.value)}
+                  placeholder="Nom de la catégorie"
+                  className="mt-2 w-full bg-apple-gray rounded-xl px-3 py-2 text-sm text-apple-dark placeholder-apple-tertiary focus:outline-none focus:ring-2 focus:ring-apple-blue"
+                />
+              )}
             </div>
             <div>
               <label className="block text-xs font-semibold text-apple-secondary mb-1">Emplacement</label>
