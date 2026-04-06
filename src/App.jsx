@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import AppShell from './components/layout/AppShell.jsx'
 import UpdateNotification from './components/layout/UpdateNotification.jsx'
+import UpdateBanner from './components/layout/UpdateBanner.jsx'
 import CheckoutPage from './pages/CheckoutPage.jsx'
 import ReturnPage from './pages/ReturnPage.jsx'
 import AdminPage from './pages/AdminPage.jsx'
@@ -22,6 +23,7 @@ export default function App() {
         Fait par Chef Khalil 2026
       </footer>
       <UpdateNotification />
+      <UpdateBanner />
     </div>
   )
 }
