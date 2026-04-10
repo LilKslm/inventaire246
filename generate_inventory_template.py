@@ -50,7 +50,6 @@ def generate():
         bottom=Side(style="thin", color="D2D2D7"),
     )
     example_font = Font(name="Calibri", size=11, color="8E8E93", italic=True)
-    normal_font = Font(name="Calibri", size=11)
 
     # ── Headers ─────────────────────────────────────────────────────────
     for col_idx, (header, width) in enumerate(zip(HEADERS, COL_WIDTHS), start=1):
@@ -93,7 +92,7 @@ def generate():
     print(f"Template genere: {output}")
     print(f"  {len(EXAMPLES)} exemples inclus (a supprimer avant l'import)")
     print(f"  Categories: {', '.join(CATEGORIES)}")
-    print(f"  Menu deroulant sur la colonne Categorie (lignes 2-500)")
+    print("  Menu deroulant sur la colonne Categorie (lignes 2-500)")
 
 
 if __name__ == "__main__":

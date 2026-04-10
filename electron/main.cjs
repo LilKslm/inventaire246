@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 let win
+let downloadedFilePath = null
 
 function createWindow() {
   win = new BrowserWindow({
@@ -38,7 +39,8 @@ app.whenReady().then(() => {
     autoUpdater.on('update-available', info => {
       if (win) win.webContents.send('update-available', { version: info.version })
     })
-    autoUpdater.on('update-downloaded', () => {
+    autoUpdater.on('update-downloaded', (info) => {
+      downloadedFilePath = info.downloadedFile || null
       if (win) win.webContents.send('update-downloaded')
     })
     autoUpdater.on('error', err => {
@@ -70,7 +72,21 @@ app.on('window-all-closed', () => {
 // ── IPC handlers ────────────────────────────────────────────────────────────
 
 ipcMain.handle('install-update', () => {
-  autoUpdater.quitAndInstall(true, true)
+  if (process.platform === 'darwin' && downloadedFilePath) {
+    // Strip the macOS quarantine flag that Gatekeeper applies to
+    // files downloaded from the internet. Without this, the unsigned
+    // extracted .app is silently blocked from launching after install.
+    try {
+      const { execSync } = require('child_process')
+      execSync(`xattr -cr "${downloadedFilePath}"`)
+    } catch (e) {
+      console.error('xattr strip failed:', e.message)
+    }
+  }
+  // isSilent=false on macOS: avoids the silent-failure code path
+  // that affects unsigned apps. isSilent=true is fine on Windows.
+  const silent = process.platform !== 'darwin'
+  autoUpdater.quitAndInstall(silent, true)
 })
 
 ipcMain.handle('save-pdf', async (_, filename, buffer) => {
